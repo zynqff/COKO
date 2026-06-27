@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.CokoEge" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.CokoEge.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#4F46E5</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.CokoEge</item>
+    </style>
+</resources>
