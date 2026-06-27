@@ -9,6 +9,10 @@ workflows:
         script: | 
           echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
       
+      - name: Grant execute permission for gradlew
+        script: | 
+          chmod +x gradlew
+      
       - name: Build debug APK
         script: | 
           ./gradlew assembleDebug
