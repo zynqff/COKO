@@ -1,5 +1,6 @@
 package ru.coko.ege.presentation.main
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Assessment
 import androidx.compose.material.icons.filled.Help
@@ -25,7 +26,6 @@ import ru.coko.ege.presentation.help.HelpScreen
 import ru.coko.ege.presentation.navigation.Routes
 import ru.coko.ege.presentation.profile.ProfileScreen
 import ru.coko.ege.presentation.results.ResultDetailScreen
-import ru.coko.ege.presentation.results.ResultsScreen
 
 private data class BottomTab(val route: String, val label: String, val icon: androidx.compose.ui.graphics.vector.ImageVector)
 
