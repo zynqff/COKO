@@ -78,7 +78,7 @@ fun SplashScreen(
             androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(top = 32.dp))
 
             Text(
-                text = "ЕГЭ Портал",
+                text = "ЦОКО Томск",
                 color = Color.White,
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Black

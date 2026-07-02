@@ -37,17 +37,17 @@ private data class FaqItem(val question: String, val answer: String)
 
 private val appealFaq = listOf(
     FaqItem(
-        "Как подать апелляцию о несогласии с баллами?",
-        "Апелляция подаётся через образовательную организацию, в которой " +
-            "вы были зарегистрированы на экзамен, в установленные сроки после " +
-            "объявления результатов. Точные даты приёма апелляций публикуются " +
-            "на сайте ЦОКО для каждого экзамена отдельно."
+        "Я не согласен с выставленными баллами. Как я могу оспорить результаты?",
+        "Вы можете подать апелляцию о несогласии с выставленными баллами. " +
+            "Апелляция подаётся в течение двух рабочих дней, следующих за официальным " +
+            "днём объявления результатов экзамена по соответствующему предмету. " +
+            "Обратитесь в свою школу (или в место регистрации на экзамен) для оформления заявления."
     ),
     FaqItem(
-        "В какие сроки нужно подать апелляцию?",
-        "Как правило, апелляции принимаются в течение 2 рабочих дней после " +
-            "официального объявления результатов экзамена. Точный срок " +
-            "указывается в уведомлении о результатах ГИА."
+        "Где я могу увидеть свои отсканированные бланки ответов и результаты выполнения заданий с развёрнутым ответом?",
+        "Скан-копии бланков ваших ответов (бланки №1 и №2), а также подробные оценки " +
+            "экспертов по критериям проверки развёрнутых ответов доступны в полной " +
+            "веб-версии личного кабинета на официальном портале ЦОКО Томской области."
     ),
     FaqItem(
         "Что делать, если результат не появился вовремя?",
@@ -64,45 +64,35 @@ fun HelpScreen() {
     Column(modifier = Modifier.fillMaxSize().padding(horizontal = 20.dp)) {
         androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(top = 24.dp))
         Text("Помощь", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Black)
+        Text(
+            "Ответы на частые вопросы участников ГИА",
+            style = MaterialTheme.typography.bodySmall,
+            color = Color.Gray
+        )
         androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(top = 16.dp))
 
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(bottom = 32.dp)
         ) {
-            item {
-                Text(
-                    "Апелляции",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-            }
             items(appealFaq) { item -> AccordionItem(item) }
-
-            item {
-                androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(top = 8.dp))
-                Text(
-                    "Поддержка",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-            }
 
             item {
                 Card(colors = CardDefaults.cardColors(containerColor = Color.White)) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
-                            "Опишите проблему, и мы постараемся помочь",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color.Gray
+                            "Техподдержка",
+                            style = MaterialTheme.typography.labelLarge,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF334155)
                         )
-                        androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(top = 12.dp))
+                        androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(top = 8.dp))
                         OutlinedTextField(
                             value = message,
                             onValueChange = { message = it },
-                            placeholder = { Text("Ваше сообщение...") },
+                            placeholder = { Text("Опишите вашу проблему...") },
                             modifier = Modifier.fillMaxWidth(),
-                            minLines = 3
+                            minLines = 4
                         )
                         androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(top = 12.dp))
                         Button(
@@ -110,7 +100,7 @@ fun HelpScreen() {
                             modifier = Modifier.fillMaxWidth(),
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4F46E5))
                         ) {
-                            Text("Отправить в техподдержку")
+                            Text("Отправить обращение")
                         }
                     }
                 }

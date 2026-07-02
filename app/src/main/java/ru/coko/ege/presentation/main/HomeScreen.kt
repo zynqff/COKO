@@ -16,19 +16,16 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.ui.draw.clip
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ru.coko.ege.domain.model.ExamCard
 import ru.coko.ege.domain.model.ExamStatus
+import ru.coko.ege.presentation.common.examTypeColors
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -59,7 +57,7 @@ fun HomeScreen(viewModel: MainViewModel = hiltViewModel()) {
                 fontWeight = FontWeight.Black
             )
             Text(
-                text = "Информация о расписании и местах проведения",
+                text = "Расписание ГИА и статус проверки",
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.Gray
             )
@@ -102,11 +100,12 @@ fun ExamCardItem(exam: ExamCard) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                StatusTag(exam.status)
+                ExamTypeTag(exam)
                 Text(
                     text = exam.date,
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.Gray
+                    color = Color.Gray,
+                    fontWeight = FontWeight.SemiBold
                 )
             }
             androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(top = 8.dp))
@@ -115,19 +114,33 @@ fun ExamCardItem(exam: ExamCard) {
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
-            if (exam.time != null || exam.location != null) {
+
+            if (exam.location != null) {
+                androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(top = 10.dp))
+                HorizontalDivider(color = Color(0xFFF1F5F9))
                 androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(top = 8.dp))
-                exam.time?.let {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Filled.Schedule, contentDescription = null, modifier = Modifier.padding(end = 6.dp), tint = Color.Gray)
-                        Text(it, style = MaterialTheme.typography.bodySmall, color = Color.Gray)
-                    }
-                }
-                exam.location?.let {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Filled.LocationOn, contentDescription = null, modifier = Modifier.padding(end = 6.dp), tint = Color.Gray)
-                        Text(it, style = MaterialTheme.typography.bodySmall, color = Color.Gray)
-                    }
+                Text(
+                    exam.location,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color(0xFF475569)
+                )
+            }
+
+            if (exam.status == ExamStatus.COMPLETED) {
+                androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(top = 10.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color(0xFFEFF6FF))
+                        .padding(10.dp)
+                ) {
+                    Text(
+                        "Результаты ожидаются позже",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Color(0xFF1E40AF),
+                        fontWeight = FontWeight.Medium
+                    )
                 }
             }
         }
@@ -135,19 +148,19 @@ fun ExamCardItem(exam: ExamCard) {
 }
 
 @Composable
-fun StatusTag(status: ExamStatus) {
-    val (text, bg, fg) = when (status) {
-        ExamStatus.RESULT_READY -> Triple("Результат готов", Color(0xFFD1FAE5), Color(0xFF047857))
-        ExamStatus.COMPLETED -> Triple("Экзамен сдан", Color(0xFFD1FAE5), Color(0xFF047857))
-        ExamStatus.UPCOMING -> Triple("Скоро", Color(0xFFFEF3C7), Color(0xFFB45309))
-        ExamStatus.UNKNOWN -> Triple("Нет данных", Color(0xFFF1F5F9), Color(0xFF64748B))
-    }
+private fun ExamTypeTag(exam: ExamCard) {
+    val colors = examTypeColors(exam.examType)
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
-            .background(color = bg)
-            .padding(horizontal = 10.dp, vertical = 4.dp)
+            .clip(RoundedCornerShape(6.dp))
+            .background(colors.background)
+            .padding(horizontal = 8.dp, vertical = 3.dp)
     ) {
-        Text(text, style = MaterialTheme.typography.labelSmall, color = fg, fontWeight = FontWeight.Bold)
+        Text(
+            exam.examType.displayName.uppercase(),
+            style = MaterialTheme.typography.labelSmall,
+            color = colors.foreground,
+            fontWeight = FontWeight.Black
+        )
     }
 }
